@@ -1,4 +1,8 @@
+import com.android.build.gradle.AppExtension
+import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.BaseExtension
+import com.android.build.gradle.LibraryExtension
+import com.android.build.gradle.LibraryPlugin
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
@@ -27,8 +31,8 @@ fun BaseExtension.defaultConfig() {
 
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     composeOptions {
@@ -40,4 +44,29 @@ fun BaseExtension.defaultConfig() {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+}
+
+fun PluginContainer.applyDefaultPlugins(p: Project) {
+    whenPluginAdded {
+        when (this) {
+            is AppPlugin -> {
+                p.extensions.getByType<AppExtension>().apply { defaultConfig() }
+            }
+
+            is LibraryPlugin -> {
+                p.extensions.getByType<LibraryExtension>().apply { defaultConfig() }
+            }
+
+            is JavaPlugin -> {
+                p.extensions.getByType<JavaPluginExtension>().apply {
+                    sourceCompatibility = JavaVersion.VERSION_17
+                    targetCompatibility = JavaVersion.VERSION_17
+                }
+            }
+        }
+    }
+}
+
+subprojects {
+    project.plugins.applyDefaultPlugins(project)
 }
