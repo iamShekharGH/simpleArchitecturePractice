@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="your_label">Lable</string>
+    <string name="password">password</string>
+    <string name="error_message">we have an error!</string>
+    <string name="click_label">Plz click here</string>
+</resources>
