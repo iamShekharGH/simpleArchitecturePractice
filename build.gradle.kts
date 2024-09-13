@@ -16,6 +16,12 @@ plugins {
     alias(libs.plugins.kotlin.serialization) apply false
 }
 
+buildscript {
+    dependencies {
+        classpath(libs.spotless)
+    }
+}
+
 fun BaseExtension.defaultConfig() {
     compileSdkVersion(34)
 
@@ -69,4 +75,7 @@ fun PluginContainer.applyDefaultPlugins(p: Project) {
 
 subprojects {
     project.plugins.applyDefaultPlugins(project)
+    afterEvaluate {
+        project.apply("${project.rootDir}/spotless.gradle")
+    }
 }
