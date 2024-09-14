@@ -33,6 +33,7 @@ android {
 dependencies {
 
     implementation(projects.theme)
+    implementation(projects.features.auth)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
