@@ -23,19 +23,28 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import shekharhandigol.loginapp.features.R
 import shekharhandigol.practice.loginapp.theme.R.string
 import shekharhandigol.practice.loginapp.theme.components.AppTextField
 import shekharhandigol.practice.loginapp.theme.components.DayNightPreview
 
 @Composable
-fun LoginScreen() {
-    Login()
+fun LoginScreen(viewModel: LoginScreenViewModel) {
+    val uiState = viewModel.loginUiState.collectAsStateWithLifecycle()
+    Login(
+        uiState = uiState.value,
+        onEvent = {
+            viewModel.onEvent(it)
+        })
 
 }
 
 @Composable
-fun Login() {
+fun Login(
+    onEvent: (LoginScreenEvents) -> Unit,
+    uiState: LoginUiState
+) {
 
     Column(
         modifier = Modifier
@@ -45,21 +54,26 @@ fun Login() {
     ) {
         Icon(painter = painterResource(R.drawable.loginicon), contentDescription = "App Icon")
         AppTextField(
-            text = "email@domain.com",
+            text = uiState.username,
             label = string.your_label,
             hint = "email@domain.com",
             leadingIcon = Icons.Filled.Email,
             imeAction = ImeAction.Next,
-            onValueChanged = {}
+            onValueChanged = {
+                onEvent(LoginScreenEvents.UsernameInputted(it))
+            }
         )
         AppTextField(
-            text = "******",
+            text = uiState.password,
             label = string.password,
             isPassword = true,
             hint = "******",
             imeAction = ImeAction.Done,
             leadingIcon = Icons.Filled.Lock,
-            onValueChanged = {}
+            onValueChanged = {
+                onEvent(LoginScreenEvents.PasswordInputted(it))
+
+            }
         )
 
         Row(
@@ -97,7 +111,7 @@ fun Login() {
 
         Column(
             modifier = Modifier.clickable {
-                
+
             }
         ) {
             Text(
@@ -123,5 +137,8 @@ fun Login() {
 @DayNightPreview
 @Composable
 fun LoginPreview() {
-    Login()
+    Login(
+        onEvent = {},
+        uiState = LoginUiState("username", "password")
+    )
 }
