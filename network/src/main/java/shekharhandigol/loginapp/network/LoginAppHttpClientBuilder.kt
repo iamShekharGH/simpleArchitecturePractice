@@ -20,7 +20,7 @@ class LoginAppHttpClientBuilder {
 
     private lateinit var protocol: URLProtocol
     private lateinit var host: String
-    private var port: Int = 8080
+    private var port: Int? = null
 
     fun protocol(protocol: URLProtocol) = apply { this.protocol = protocol }
 
@@ -46,7 +46,7 @@ class LoginAppHttpClientBuilder {
                 url {
                     protocol = this@LoginAppHttpClientBuilder.protocol
                     host = this@LoginAppHttpClientBuilder.host
-                    port = this@LoginAppHttpClientBuilder.port
+                    this@LoginAppHttpClientBuilder.port?.let { port = it }
                 }
 
                 header(HttpHeaders.ContentType, "application/json")

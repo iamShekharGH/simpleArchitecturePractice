@@ -17,16 +17,22 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "REST_URL", "\"api.coindesk.com\"")
+        }
+        debug {
+            isMinifyEnabled = false
+            buildConfigField("String", "REST_URL", "\"api.coindesk.com\"")
         }
     }
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -34,6 +40,7 @@ dependencies {
 
     implementation(projects.theme)
     implementation(projects.features.auth)
+    implementation(projects.network)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
