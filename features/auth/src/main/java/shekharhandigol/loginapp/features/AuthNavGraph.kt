@@ -1,6 +1,6 @@
 package shekharhandigol.loginapp.features
 
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -30,7 +30,7 @@ fun NavGraphBuilder.authNavBuilder(
         }
 
         composable(AuthScreen.Login.route) {
-            LoginScreen(viewModel = viewModel())
+            LoginScreen(viewModel = hiltViewModel())
         }
     }
 
