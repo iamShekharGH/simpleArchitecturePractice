@@ -14,6 +14,7 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
 import io.ktor.http.URLProtocol
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 class LoginAppHttpClientBuilder {
@@ -53,11 +54,11 @@ class LoginAppHttpClientBuilder {
             }
 
             install(ContentNegotiation) {
-                Json {
+                json(Json {
                     prettyPrint = true
                     isLenient = true
                     ignoreUnknownKeys = true
-                }
+                })
             }
 
             install(Auth) {

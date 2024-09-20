@@ -38,6 +38,7 @@ class RequestHandler(val httpClient: HttpClient) {
                 NetworkResult.Success(response)
 
             } catch (e: Exception) {
+                e.printStackTrace()
                 val networkException = if (e is ResponseException) {
                     val errorBody = e.response.body<DefaultError>()
                     when (e.response.status) {
@@ -50,7 +51,7 @@ class RequestHandler(val httpClient: HttpClient) {
                 } else {
                     NetworkException.UnknownException(e.message ?: "Unknown Error", e)
                 }
-                NetworkResult.Failure("", networkException)
+                NetworkResult.Failure(networkException.stackTraceToString(), networkException)
             }
         }
     }
