@@ -15,9 +15,13 @@ import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
 import io.ktor.http.URLProtocol
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.flow.first
 import kotlinx.serialization.json.Json
+import shekharhandigol.loginapp.storage.SessionHandler
 
-class LoginAppHttpClientBuilder {
+class LoginAppHttpClientBuilder(
+    private val sessionHandler: SessionHandler
+) {
 
     private lateinit var protocol: URLProtocol
     private lateinit var host: String
@@ -64,12 +68,8 @@ class LoginAppHttpClientBuilder {
             install(Auth) {
                 bearer {
                     loadTokens {
-                        BearerTokens("", "")
+                        BearerTokens(sessionHandler.getCurrentUser().first().authKey, "")
                     }
-                    refreshTokens {
-                        BearerTokens("", "")
-                    }
-
                 }
             }
 

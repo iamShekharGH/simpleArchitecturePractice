@@ -4,18 +4,23 @@ import shekharhandigol.loginapp.features.auth.data.AuthRepository
 import shekharhandigol.loginapp.features.auth.data.UserLoginRequest
 import shekharhandigol.loginapp.network.NetworkException
 import shekharhandigol.loginapp.network.NetworkResult
+import shekharhandigol.loginapp.storage.SessionHandler
 import javax.inject.Inject
 
 class LoginUseCase @Inject constructor(
     private val authRepository: AuthRepository,
-    private val mapper: UserMapper
+    private val mapper: UserMapper,
+    private val sessionHandler: SessionHandler
 ) {
 
     suspend fun invoke(email: String, password: String): Resource<User> {
         val request = UserLoginRequest(email, password)
         return when (val result = authRepository.login(request)) {
             is NetworkResult.Failure -> result.toResultError()
-            is NetworkResult.Success -> Resource.Success(mapper.map(result.result.data))
+            is NetworkResult.Success -> {
+                sessionHandler.setCurrentUser(result.result.data.id, result.result.data.authToken)
+                Resource.Success(mapper.map(result.result.data))
+            }
         }
     }
 }
