@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/features/auth/data" />
             <option value="$PROJECT_DIR$/features/auth/domain" />
             <option value="$PROJECT_DIR$/network" />
+            <option value="$PROJECT_DIR$/storage" />
             <option value="$PROJECT_DIR$/theme" />
           </set>
         </option>

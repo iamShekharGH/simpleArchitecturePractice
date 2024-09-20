@@ -99,7 +99,7 @@ fun Login(
                     .weight(1f)
                     .padding(16.dp),
                 onClick = {
-
+                    onEvent.invoke(LoginScreenEvents.Login)
                 }
             ) {
                 Icon(
