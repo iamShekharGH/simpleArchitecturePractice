@@ -43,6 +43,7 @@ dependencies {
     implementation(projects.network)
     implementation(projects.features.auth.data)
     implementation(projects.features.auth.domain)
+    implementation(projects.storage)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -70,4 +71,17 @@ dependencies {
 
     implementation(libs.datastore)
     implementation(libs.protobuf.javalite)
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.19.4"
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.plugins.create("java") {
+                option("lite")
+            }
+        }
+    }
 }
