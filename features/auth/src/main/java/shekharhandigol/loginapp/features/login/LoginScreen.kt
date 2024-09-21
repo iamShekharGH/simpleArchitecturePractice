@@ -59,6 +59,7 @@ fun Login(
             hint = "email@domain.com",
             leadingIcon = Icons.Filled.Email,
             imeAction = ImeAction.Next,
+            error = uiState.emailError,
             onValueChanged = {
                 onEvent(LoginScreenEvents.UsernameInputted(it))
             }
@@ -68,6 +69,7 @@ fun Login(
             label = string.password,
             isPassword = true,
             hint = "******",
+            error = uiState.passwordError,
             imeAction = ImeAction.Done,
             leadingIcon = Icons.Filled.Lock,
             onValueChanged = {

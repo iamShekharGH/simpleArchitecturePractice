@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="email_cannot_be_empty">Email cannot be empty.</string>
+    <string name="email_is_invalid">Email is invalid.</string>
+    <string name="password_short">Password too short!!</string>
+</resources>
