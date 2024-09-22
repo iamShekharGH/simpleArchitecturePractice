@@ -22,11 +22,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "REST_URL", "\"127.0.0.1:8080\"")
+            buildConfigField("String", "REST_URL", "\"127.0.0.1\"")
         }
         debug {
             isMinifyEnabled = false
-            buildConfigField("String", "REST_URL", "\"127.0.0.1:8080\"")
+            buildConfigField("String", "REST_URL", "\"127.0.0.1\"")
         }
     }
 
@@ -44,6 +44,8 @@ dependencies {
     implementation(projects.features.auth.data)
     implementation(projects.features.auth.domain)
     implementation(projects.storage)
+    implementation(projects.features.home)
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

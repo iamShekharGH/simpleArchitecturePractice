@@ -30,11 +30,11 @@ fun NavGraphBuilder.authNavBuilder(
                 navController = navController,
                 onAuthSuccess = onAuthSuccess
             )
-            navController.navigate(AuthScreen.Login.route)
+            //            navController.navigate(AuthScreen.Login.route)
         }
 
         composable(AuthScreen.Login.route) {
-            LoginScreen(viewModel = hiltViewModel())
+            LoginScreen(viewModel = hiltViewModel(), onAuthSuccess)
         }
     }
 
