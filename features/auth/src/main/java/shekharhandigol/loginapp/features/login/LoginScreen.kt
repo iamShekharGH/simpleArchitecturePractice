@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -13,13 +14,17 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -30,20 +35,31 @@ import shekharhandigol.practice.loginapp.theme.components.AppTextField
 import shekharhandigol.practice.loginapp.theme.components.DayNightPreview
 
 @Composable
-fun LoginScreen(viewModel: LoginScreenViewModel) {
+fun LoginScreen(viewModel: LoginScreenViewModel, onAuthSuccess: () -> Unit) {
     val uiState = viewModel.loginUiState.collectAsStateWithLifecycle()
-    Login(
-        uiState = uiState.value,
-        onEvent = {
-            viewModel.onEvent(it)
-        })
+
+    when (val state = uiState.value) {
+        LoginUiState.Authenticated -> {
+            LaunchedEffect(Unit) { }
+            onAuthSuccess()
+        }
+
+        is LoginUiState.NotAuthenticated -> {
+            Login(
+                uiState = state,
+                onEvent = {
+                    viewModel.onEvent(it)
+                })
+        }
+    }
+
 
 }
 
 @Composable
 fun Login(
     onEvent: (LoginScreenEvents) -> Unit,
-    uiState: LoginUiState
+    uiState: LoginUiState.NotAuthenticated
 ) {
 
     Column(
@@ -77,6 +93,22 @@ fun Login(
 
             }
         )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+        ) {
+            if (uiState.isLoading) {
+                CircularProgressIndicator(modifier = Modifier.align(CenterHorizontally))
+            }
+            uiState.loginError?.let { error ->
+                Text(
+                    text = stringResource(error),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.error,
+                )
+            }
+        }
 
         Row(
             modifier = Modifier.fillMaxWidth()
@@ -141,6 +173,6 @@ fun Login(
 fun LoginPreview() {
     Login(
         onEvent = {},
-        uiState = LoginUiState("username", "password")
+        uiState = LoginUiState.NotAuthenticated("username", "password")
     )
 }

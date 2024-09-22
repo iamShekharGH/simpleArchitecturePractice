@@ -3,4 +3,7 @@
     <string name="email_cannot_be_empty">Email cannot be empty.</string>
     <string name="email_is_invalid">Email is invalid.</string>
     <string name="password_short">Password too short!!</string>
+    <string name="invalid_email_password">Please check email/password</string>
+    <string name="service_unavailable">THe service is currently unavailable.</string>
+    <string name="unknown_error">Please try again later. It is inconvinient rite now.</string>
 </resources>

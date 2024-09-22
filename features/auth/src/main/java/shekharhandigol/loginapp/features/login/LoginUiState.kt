@@ -2,10 +2,19 @@ package shekharhandigol.loginapp.features.login
 
 import androidx.annotation.StringRes
 
-data class LoginUiState(
-    val username: String = "",
-    val password: String = "",
+sealed class LoginUiState {
 
-    @StringRes val emailError: Int? = null,
-    @StringRes val passwordError: Int? = null
-)
+    data class NotAuthenticated(
+        val username: String = "",
+        val password: String = "",
+
+        @StringRes val emailError: Int? = null,
+        @StringRes val passwordError: Int? = null,
+
+        val isLoading: Boolean = false,
+
+        @StringRes val loginError: Int? = null,
+    ) : LoginUiState()
+
+    data object Authenticated : LoginUiState()
+}
